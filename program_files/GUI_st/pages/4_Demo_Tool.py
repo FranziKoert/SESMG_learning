@@ -62,11 +62,36 @@ def dt_input_sidebar() -> dict:
             max_value=10000,
             step=1)
 
-        # input value for solar thermal
+        input_pv_azimuth = st.radio(
+            label="Photovoltaic Orientation",
+            options=["North","East","South","West"])
+
+        # every orientation that can be chosen in the button widget are \
+        # transformed to the azimuth degree of the photovoltaics.
+        if input_pv_azimuth == "North":
+            input_values_dict["input_pv_azimuth"] = 0
+
+        elif input_pv_azimuth == "East":
+            input_values_dict["input_pv_azimuth"] = 90
+
+        elif input_pv_azimuth == "South":
+            input_values_dict["input_pv_azimuth"] = 180
+
+        elif input_pv_azimuth == "West":
+            input_values_dict["input_pv_azimuth"] = 270
+
+        # input value for solar therrmal
         input_values_dict["input_st"] = st.number_input(
             label="Solar Thermal in kW",
             min_value=0,
             max_value=27700,
+            step=1)
+
+        # input value for wind
+        input_values_dict["input_wind"] = st.number_input(
+            label="Wind in kW",
+            min_value=0,
+            max_value=30000,
             step=1)
 
         # input value for air source heat pump
@@ -143,6 +168,10 @@ def dt_input_sidebar() -> dict:
             input_values_dict["input_chp_rural"] = 1
             input_values_dict["input_dh_rural"] = 1
 
+
+
+
+
         # create slider to choose the optimization criterion
         input_values_dict["input_criterion"] = st.select_slider(
             label="Optimization Criterion",
@@ -211,9 +240,16 @@ def create_demo_model_definition() -> None:
     sheet = xfile["sources"]
     sheet["I3"] = input_values_dict["input_pv"]
     sheet["J3"] = input_values_dict["input_pv"]
+    # PHOTOVOLTAICS Orientation
+    sheet = xfile["sources"]
+    sheet["Z3"] = input_values_dict["input_pv_azimuth"]
     # SOLAR THERMAL
     sheet["I5"] = input_values_dict["input_st"]
     sheet["J5"] = input_values_dict["input_st"]
+    # WIND
+    sheet = xfile["sources"]
+    sheet["I4"] = input_values_dict["input_wind"]
+    sheet["J4"] = input_values_dict["input_wind"]
     # BATTERY
     sheet = xfile["storages"]
     sheet["N3"] = input_values_dict["input_battery"]
