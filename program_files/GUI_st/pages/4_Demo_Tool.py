@@ -64,7 +64,7 @@ def dt_input_sidebar() -> dict:
 
         input_pv_azimuth = st.radio(
             label="Photovoltaic Orientation",
-            options=["North","East","South","West"])
+            options=["North","East","South","West","South-West"])
 
         # every orientation that can be chosen in the button widget are \
         # transformed to the azimuth degree of the photovoltaics.
@@ -79,6 +79,10 @@ def dt_input_sidebar() -> dict:
 
         elif input_pv_azimuth == "West":
             input_values_dict["input_pv_azimuth"] = 270
+
+        else:
+            input_values_dict["input_pv_azimuth"] = 225
+
 
         # input value for solar therrmal
         input_values_dict["input_st"] = st.number_input(
